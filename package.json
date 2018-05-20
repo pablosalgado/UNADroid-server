@@ -1,0 +1,13 @@
+{
+  "name": "unadroid-server",
+  "version": "1.0.0",
+  "description": "Porción sevidora para UNADroid",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Pablo Salgado",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}
