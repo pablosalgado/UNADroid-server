@@ -11,7 +11,3 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_UN` (`email`)
 ) ENGINE=InnoDB;
-
-INSERT INTO unadroid.users
-(email, password, firstName, lastName, createdAt, updatedAt)
-VALUES('pabloasalgado@gmail.com', 'encriptar', 'Pablo', 'Salgado', NOW(), NOW());
