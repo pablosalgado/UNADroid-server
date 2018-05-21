@@ -51,14 +51,14 @@ app.post('/api/login', (req, res) => {
 
         // El usuario no existe
         if (users.length !== 1) {
-            res.send(JSON.stringify(error));
+            res.send(error);
             return;
         }
 
         // La contraseña no coincide
         let user = users[0];
         if(req.body.password !== user.password) {
-            res.send(JSON.stringify(error));
+            res.send(error);
             return;
         }
 

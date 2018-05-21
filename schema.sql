@@ -7,9 +7,9 @@ DROP TABLE IF EXISTS `evaluation_question`;
 DROP TABLE IF EXISTS `evaluation`;
 DROP TABLE IF EXISTS `extra_activity`;
 DROP TABLE IF EXISTS `unit`;
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `users`;
 
-CREATE TABLE `user` (
+CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
   `password` varchar(100) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `user_evaluation` (
   KEY `user_evaluation_user_FK` (`user_id`),
   KEY `user_evaluation_evaluation_FK` (`evaluation_id`),
   CONSTRAINT `user_evaluation_evaluation_FK` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`),
-  CONSTRAINT `user_evaluation_user_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `user_evaluation_user_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `user_extra_activity` (
@@ -88,7 +88,7 @@ CREATE TABLE `user_extra_activity` (
   KEY `user_extra_activity_user_FK` (`user_id`),
   KEY `user_extra_activity_extra_activity_FK` (`extra_activity_id`),
   CONSTRAINT `user_extra_activity_extra_activity_FK` FOREIGN KEY (`extra_activity_id`) REFERENCES `extra_activity` (`id`),
-  CONSTRAINT `user_extra_activity_user_FK` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  CONSTRAINT `user_extra_activity_user_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `resource_type` (
