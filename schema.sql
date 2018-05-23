@@ -115,3 +115,45 @@ CREATE TABLE `resource` (
   CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
   CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE OR REPLACE VIEW videos
+AS
+	SELECT a.id
+	       , c.name AS unit
+	       , a.`order`
+	       , a.name
+	       , a.description
+	       , a.url
+	       , a.createdAt
+	       , a.updatedAt
+	FROM   resource a
+	       INNER JOIN resource_type b
+	               ON b.id = a.resource_type_id
+	       INNER JOIN unit c
+	               ON c.id = a.unit_id
+	WHERE  resource_type_id = 1;
+	
+	
+INSERT INTO unadroid.users
+(id, email, password, firstName, lastName, createdAt, updatedAt)
+VALUES(1, 'pabloasalgado@gmail.com', 'pablo', 'Pablo ', 'Salgado ', '2018-05-20 23:10:53.000', '2018-05-20 23:10:53.000');
+
+INSERT INTO unadroid.resource_type
+(id, name, createdAt, updatedAt)
+VALUES(1, 'Video', '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
+
+INSERT INTO unadroid.resource_type
+(id, name, createdAt, updatedAt)
+VALUES(2, 'PDF', '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
+
+INSERT INTO unadroid.unit
+(id, name, description, createdAt, updatedAt)
+VALUES(1, 'Unidad 1', 'Conceptos básicos', '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
+
+INSERT INTO unadroid.resource
+(id, resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
+VALUES(1, 1, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cs76.tv/2012/spring/lectures/2/lecture2.mp4', 1, '2018-05-23 23:17:09.000', '2018-05-23 23:17:12.000');
+
+INSERT INTO unadroid.resource
+(id, resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
+VALUES(2, 2, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cdn.cs76.net/2012/spring/lectures/2/lecture2-dan.pdf', 1, '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');

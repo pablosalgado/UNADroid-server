@@ -100,4 +100,40 @@ app.post('/api/register', (req, res) => {
     });
 });
 
+
+// ----------------------------------------------------------------------------
+// Sección de recursos. Define las rutas y funciones para obtener los recursos
+// del curso
+// ----------------------------------------------------------------------------
+
+const Video = sequelize.define('video', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    unit: {
+        type: Sequelize.DataTypes.STRING
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    },
+    url: {
+        type: Sequelize.DataTypes.STRING
+    },
+    order: {
+        type: Sequelize.DataTypes.INTEGER
+    }
+})
+
+// Videos
+app.get('/api/videos', (req, res) => {
+    Video.findAll().then(videos => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(videos);
+    });
+});
+
 app.listen(3000, () => console.log('UNADroid-server listening on port 3000!'));
