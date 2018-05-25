@@ -126,7 +126,7 @@ const Video = sequelize.define('video', {
     order: {
         type: Sequelize.DataTypes.INTEGER
     }
-})
+});
 
 // Videos
 app.get('/api/videos', (req, res) => {

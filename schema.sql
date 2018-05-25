@@ -24,6 +24,7 @@ CREATE TABLE `users` (
 CREATE TABLE `unit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `order` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
@@ -131,12 +132,18 @@ AS
 	               ON b.id = a.resource_type_id
 	       INNER JOIN unit c
 	               ON c.id = a.unit_id
-	WHERE  resource_type_id = 1;
-	
+	WHERE  resource_type_id = 1
+	ORDER BY
+	       c.order
+	       , a.order;
 	
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(1, 'pabloasalgado@gmail.com', 'pablo', 'Pablo ', 'Salgado ', '2018-05-20 23:10:53.000', '2018-05-20 23:10:53.000');
+
+INSERT INTO unadroid.users
+(id, email, password, firstName, lastName, createdAt, updatedAt)
+VALUES(2, 'jsebascalle@gmail.com', '123456789', 'Juan', 'Calle', '2018-05-24 02:58:35.000', '2018-05-24 02:58:35.000');
 
 INSERT INTO unadroid.resource_type
 (id, name, createdAt, updatedAt)
@@ -147,8 +154,8 @@ INSERT INTO unadroid.resource_type
 VALUES(2, 'PDF', '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
 
 INSERT INTO unadroid.unit
-(id, name, description, createdAt, updatedAt)
-VALUES(1, 'Unidad 1', 'Conceptos básicos', '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
+(id, name, description, `order`, createdAt, updatedAt)
+VALUES(1, 'Unidad 1', 'Conceptos básicos', 1, '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
 
 INSERT INTO unadroid.resource
 (id, resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
