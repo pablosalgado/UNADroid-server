@@ -100,6 +100,36 @@ app.post('/api/register', (req, res) => {
     });
 });
 
+// Actualización de usuario
+app.post('/api/users', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email,
+        }
+    }).then(user => {
+        res.setHeader('Content-type', 'application/json');
+
+        if (!user) {
+            let error = {
+                error: true,
+                error_msg: 'El usuario no existe.'
+            };
+
+            res.send(error);
+
+            return;
+        }
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+
+        user.save({
+            fields: ['firstName', 'lastName']
+        }).then(u => {
+            res.send(u);
+        });
+    });
+});
 
 // ----------------------------------------------------------------------------
 // Sección de recursos. Define las rutas y funciones para obtener los recursos
