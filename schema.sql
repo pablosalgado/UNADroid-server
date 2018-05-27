@@ -105,7 +105,7 @@ CREATE TABLE `resource` (
   `resource_type_id` int(11) NOT NULL,
   `unit_id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` varchar(100) NOT NULL,
+  `description` text NOT NULL,
   `url` varchar(100) NOT NULL,
   `order` int(11) NOT NULL,
   `createdAt` datetime DEFAULT NULL,
@@ -145,6 +145,8 @@ INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(2, 'jsebascalle@gmail.com', '123456789', 'Juan', 'Calle', '2018-05-24 02:58:35.000', '2018-05-24 02:58:35.000');
 
+--
+-- TIPO DE RECURSO
 INSERT INTO unadroid.resource_type
 (id, name, createdAt, updatedAt)
 VALUES(1, 'Video', '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
@@ -153,14 +155,166 @@ INSERT INTO unadroid.resource_type
 (id, name, createdAt, updatedAt)
 VALUES(2, 'PDF', '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
 
+--
+-- UNIDADES
 INSERT INTO unadroid.unit
-(id, name, description, `order`, createdAt, updatedAt)
-VALUES(1, 'Unidad 1', 'Conceptos básicos', 1, '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
+            (id
+             , name
+             , description
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 'Unidad 1'
+            , 'Conceptos básicos'
+            , 1
+            , NOW()
+            , NOW());
+
+INSERT INTO unadroid.unit
+            (id
+             , name
+             , description
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (2
+            , 'Unidad 2'
+            , 'SDK, Activities and Views'
+            , 2
+            , NOW()
+            , NOW());
+
+INSERT INTO unadroid.unit
+            (id
+             , name
+             , description
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (3
+            , 'Unidad 3'
+            , 'Resources, Assets and Intents'
+            , 3
+            , NOW()
+            , NOW());  
+           
+-- ****************************************************************************
+-- VIDEOS
+-- ****************************************************************************
+
+-- UNIDAD 1
+INSERT INTO unadroid.resource
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 1
+            , 'Android and Android Studio: Getting Started'
+            , 'Learn how to get started with Android and Android Studio in this short tutorial. It demontrates how to install Android Studio (Google’s official Android IDE) and create your first Android app. You’ll learn how to download the Java SDK, download and install Android'
+            , 'https://www.youtube.com/watch?v=Z98hXV9GmzY'
+            , 1
+            , NOW()
+            , NOW());  
 
 INSERT INTO unadroid.resource
-(id, resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
-VALUES(1, 1, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cs76.tv/2012/spring/lectures/2/lecture2.mp4', 1, '2018-05-23 23:17:09.000', '2018-05-23 23:17:12.000');
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 1
+            , 'Android Studio For Beginners Part 1'
+            , 'This video will demonstrate (1) how to setup a project in Android Studio, (2) how to navigate within Android Studio to build a simple Android application, and (3) how to debug and run an Android app.'
+            , 'https://www.youtube.com/watch?v=dFlPARW5IX8'
+            , 2
+            , NOW()
+            , NOW());
+           
+INSERT INTO unadroid.resource
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 1
+            , 'Android Studio For Beginners Part 2'
+            , 'In this video you will build the Quicklauncher app that acts as a menu for launching other apps. The focus of this video will be to learn about the Activity and Intent classes in Android development.'
+            , 'https://www.youtube.com/watch?v=dFlPARW5IX8'
+            , 3
+            , NOW()
+            , NOW());  
+
+-- UNIDAD 2
+INSERT INTO unadroid.resource
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 2
+            , 'Understanding activity states in Android Studio'
+            , 'Basic understanding of Android activities.'
+            , 'https://www.youtube.com/watch?v=S8voQap6suk'
+            , 1
+            , NOW()
+            , NOW());  
 
 INSERT INTO unadroid.resource
-(id, resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
-VALUES(2, 2, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cdn.cs76.net/2012/spring/lectures/2/lecture2-dan.pdf', 1, '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 2
+            , 'How to build user interface using Android Studio part 1'
+            , 'Building the user interface of Android app.'
+            , 'https://www.youtube.com/watch?v=zgzVCBZyTkc'
+            , 2
+            , NOW()
+            , NOW());  
+           
+INSERT INTO unadroid.resource
+            (resource_type_id
+             , unit_id
+             , name
+             , description
+             , url
+             , `order`
+             , createdat
+             , updatedat)
+VALUES     (1
+            , 2
+            , 'How to build user interface using Android Studio part 2'
+            , 'Building the user interface of Android app.'
+            , 'https://www.youtube.com/watch?v=Kpyf6s-vPxg'
+            , 3
+            , NOW()
+            , NOW());  
+
+--
+-- DOCUMENTOS
+INSERT INTO unadroid.resource
+(resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
+VALUES(2, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cdn.cs76.net/2012/spring/lectures/2/lecture2-dan.pdf', 1, '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
