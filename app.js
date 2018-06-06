@@ -100,28 +100,8 @@ app.post('/api/register', (req, res) => {
     });
 });
 
-// Actualizar usuario
-app.post('/api/update', (req, res) => {
-    User.findOne({
-        where: {
-            email: req.body.email
-        }
-    }).then(users  => {
-        res.setHeader('Content-type', 'application/json');
-        // Editar el usuario
-        User.create({
-            email: req.body.email,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName
-        }).then(user => {
-            res.send(user);
-        });
-    });
-});
-
-
-// Actualizar usuario
-app.post('/api/getUser', (req, res) => {
+// datos usuario
+app.get('/api/getUser', (req, res) => {
     User.findOne({
         where: {
             email: req.body.email
@@ -130,6 +110,38 @@ app.post('/api/getUser', (req, res) => {
         res.setHeader('Content-type', 'application/json');
         // Enviar datos del usuario
         res.send(user);
+    });
+});
+
+
+// Actualización de usuario
+app.post('/api/users', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email,
+        }
+    }).then(user => {
+        res.setHeader('Content-type', 'application/json');
+
+        if (!user) {
+            let error = {
+                error: true,
+                error_msg: 'El usuario no existe.'
+            };
+
+            res.send(error);
+
+            return;
+        }
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+
+        user.save({
+            fields: ['firstName', 'lastName']
+        }).then(u => {
+            res.send(u);
+        });
     });
 });
 
