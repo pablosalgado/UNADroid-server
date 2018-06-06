@@ -100,6 +100,20 @@ app.post('/api/register', (req, res) => {
     });
 });
 
+// datos usuario
+app.get('/api/getUser', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email
+        }
+    }).then(user  => {
+        res.setHeader('Content-type', 'application/json');
+        // Enviar datos del usuario
+        res.send(user);
+    });
+});
+
+
 // Actualización de usuario
 app.post('/api/users', (req, res) => {
     User.findOne({
@@ -130,6 +144,7 @@ app.post('/api/users', (req, res) => {
         });
     });
 });
+
 
 // ----------------------------------------------------------------------------
 // Sección de recursos. Define las rutas y funciones para obtener los recursos
