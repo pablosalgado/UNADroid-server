@@ -208,32 +208,6 @@ app.get('/api/videos', (req, res) => {
     });
 });
 
-//SECCION PARA LISTAR UNIDADES
-
-const Unit = sequelize.define('unit', {
-    id: {
-        type: Sequelize.DataTypes.INTEGER,
-        primaryKey: true
-    },
-    name: {
-        type: Sequelize.DataTypes.STRING
-    },
-    order: {
-        type: Sequelize.DataTypes.INTEGER
-    },
-    description: {
-        type: Sequelize.DataTypes.STRING
-    }
-});
-
-
-app.get('/api/units', (req, res) => {
-    Unit.all().then(units => {
-        res.setHeader('Content-type', 'application/json');
-        res.send(units);
-    })
-});
-
 //SECCION PARA TEMATICAS
 
 const Topic = sequelize.define('topic', {
