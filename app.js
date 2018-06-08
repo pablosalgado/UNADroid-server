@@ -72,10 +72,9 @@ app.post('/api/register', (req, res) => {
     User.findAll({
         where: {
             email: req.body.email
-        }
+        },
     }).then(users  => {
         res.setHeader('Content-type', 'application/json');
-
         // Si la dirección de correo ya está registrada no se puede crear el usuario.
         if (users.length === 1) {
             let error = {
@@ -101,10 +100,10 @@ app.post('/api/register', (req, res) => {
 });
 
 // datos usuario
-app.get('/api/getUser', (req, res) => {
+app.post('/api/user', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email
+            email: req.body.email,
         }
     }).then(user  => {
         res.setHeader('Content-type', 'application/json');
@@ -115,10 +114,10 @@ app.get('/api/getUser', (req, res) => {
 
 
 // Actualización de usuario
-app.post('/api/users', (req, res) => {
+app.post('/api/userUpdate', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email,
+            id: req.body.id,
         }
     }).then(user => {
         res.setHeader('Content-type', 'application/json');
@@ -136,6 +135,7 @@ app.post('/api/users', (req, res) => {
 
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
+        user.email = req.body.email;
 
         user.save({
             fields: ['firstName', 'lastName']
@@ -180,6 +180,66 @@ app.get('/api/videos', (req, res) => {
         res.send(videos);
     });
 });
+
+//SECCION PARA LISTAR UNIDADES
+
+const Unit = sequelize.define('unit', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
+    order: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    }
+});
+
+
+app.get('/api/units', (req, res) => {
+    Unit.all().then(units => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(units);
+    })
+});
+
+//SECCION PARA TEMATICAS
+
+const Topic = sequelize.define('topic', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    },
+    order: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    unit_id: {
+        type: Sequelize.DataTypes.INTEGER
+    }
+});
+
+
+app.post('/api/topics', (req, res) => {
+    Topic.findAll({
+        where: {
+            unit_id: req.body.unit_id,
+        }
+    }).then(topics => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(topics);
+    })
+});
+
 
 var port = process.env.PORT || 3000;
 
