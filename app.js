@@ -30,6 +30,33 @@ const User = sequelize.define('user', {
     }
 });
 
+
+// Modelo de unidades (Permite mapear la entidad units)
+const Unit = sequelize.define('unit', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
+    order: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    },
+    createdAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    updatedAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    iconname: {
+        type: Sequelize.DataTypes.STRING
+    },
+});
+
 // ----------------------------------------------------------------------------
 // Sección IAM, define las rutas y funciones para el registro e ingreso de los
 // usuarios
@@ -245,4 +272,13 @@ var port = process.env.PORT || 3000;
 
 app.listen(port, function () {
     console.log('UNADroid-server listening on port ' + port + '!');
+});
+
+// Esta seccion devuelve el llstado de unidades disponibles
+app.post('/api/getUnits', (req, res) => {
+    Unit.findAll().then(unit  => {
+        res.setHeader('Content-type', 'application/json');
+        // Enviar datos del usuario
+        res.send(unit);
+    });
 });
