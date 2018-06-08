@@ -31,7 +31,7 @@ const User = sequelize.define('user', {
 });
 
 
-// Modelo de unidades
+// Modelo de unidades (Permite mapear la entidad units)
 const Unit = sequelize.define('unit', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
