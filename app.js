@@ -7,6 +7,13 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+var port = process.env.PORT || 3000;
+
+app.listen(port, function () {
+    console.log('UNADroid-server listening on port ' + port + '!');
+});
+
+
 // Ruta por defecto cuando se carga el sitio raíz: https://unadroid.tk
 app.get('/', (req, res) => res.send('UNADroid Server!'));
 
@@ -241,15 +248,8 @@ app.post('/api/topics', (req, res) => {
     })
 });
 
-
-var port = process.env.PORT || 3000;
-
-app.listen(port, function () {
-    console.log('UNADroid-server listening on port ' + port + '!');
-});
-
 // Esta seccion devuelve el llstado de unidades disponibles
-app.post('/api/getUnits', (req, res) => {
+app.get('/api/units', (req, res) => {
     Unit.findAll().then(unit  => {
         res.setHeader('Content-type', 'application/json');
         // Enviar datos del usuario

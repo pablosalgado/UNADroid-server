@@ -1,3 +1,5 @@
+USE unadroid;
+
 DROP TABLE IF EXISTS `resource`;
 DROP TABLE IF EXISTS `resource_type`;
 DROP TABLE IF EXISTS `user_extra_activity`;
@@ -9,6 +11,10 @@ DROP TABLE IF EXISTS `extra_activity`;
 DROP TABLE IF EXISTS `unit`;
 DROP TABLE IF EXISTS `users`;
 
+
+-- ****************************************************************************
+-- TABLaS
+-- ****************************************************************************
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL,
@@ -117,6 +123,9 @@ CREATE TABLE `resource` (
   CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `unit` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- ****************************************************************************
+-- VISTAS
+-- ****************************************************************************
 CREATE OR REPLACE VIEW videos
 AS
 	SELECT a.id
@@ -145,8 +154,9 @@ INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(2, 'jsebascalle@gmail.com', '123456789', 'Juan', 'Calle', '2018-05-24 02:58:35.000', '2018-05-24 02:58:35.000');
 
---
+-- ****************************************************************************
 -- TIPO DE RECURSO
+-- ****************************************************************************
 INSERT INTO unadroid.resource_type
 (id, name, createdAt, updatedAt)
 VALUES(1, 'Video', '2018-05-23 23:17:08.000', '2018-05-23 23:17:08.000');
@@ -155,8 +165,9 @@ INSERT INTO unadroid.resource_type
 (id, name, createdAt, updatedAt)
 VALUES(2, 'PDF', '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
 
---
+-- ****************************************************************************
 -- UNIDADES
+-- ****************************************************************************
 INSERT INTO unadroid.unit
             (id
              , name
