@@ -13,7 +13,6 @@ app.listen(port, function () {
     console.log('UNADroid-server listening on port ' + port + '!');
 });
 
-
 // Ruta por defecto cuando se carga el sitio raíz: https://unadroid.tk
 app.get('/', (req, res) => res.send('UNADroid Server!'));
 
@@ -37,7 +36,6 @@ const User = sequelize.define('user', {
     }
 });
 
-
 // Modelo de unidades (Permite mapear la entidad units)
 const Unit = sequelize.define('unit', {
     id: {
@@ -59,7 +57,7 @@ const Unit = sequelize.define('unit', {
     updatedAt: {
         type: Sequelize.DataTypes.DATE
     },
-    iconname: {
+    iconName: {
         type: Sequelize.DataTypes.STRING
     },
 });
@@ -215,8 +213,19 @@ app.get('/api/videos', (req, res) => {
     });
 });
 
-//SECCION PARA TEMATICAS
-
+app.get('/api/videos/:id', (req, res) =>{
+    Video.findOne({
+        where: {
+            id: req.params.id,
+        }
+    }).then(video => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(video);
+    });
+});
+// ----------------------------------------------------------------------------
+// SECCION PARA TEMATICAS
+// ----------------------------------------------------------------------------
 const Topic = sequelize.define('topic', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
@@ -248,7 +257,7 @@ app.post('/api/topics', (req, res) => {
     })
 });
 
-// Esta seccion devuelve el llstado de unidades disponibles
+// Esta seccion devuelve el listado de unidades disponibles
 app.get('/api/units', (req, res) => {
     Unit.findAll().then(unit  => {
         res.setHeader('Content-type', 'application/json');
