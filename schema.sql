@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS `evaluation_answer`;
 DROP TABLE IF EXISTS `evaluation_question`;
 DROP TABLE IF EXISTS `evaluation`;
 DROP TABLE IF EXISTS `extra_activity`;
+DROP TABLE IF EXISTS `topics`;
 DROP TABLE IF EXISTS `units`;
 DROP TABLE IF EXISTS `users`;
 
@@ -36,6 +37,19 @@ CREATE TABLE `units` (
   `createdAt` datetime DEFAULT NULL,
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `topics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `description` text,
+  `order` int(11) DEFAULT NULL,
+  `unit_id` int(11) DEFAULT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `topics_units_FK` (`unit_id`),
+  CONSTRAINT `topics_units_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `extra_activity` (
@@ -212,7 +226,17 @@ VALUES     (3
             , 3
             , NOW()
             , NOW());  
-           
+
+-- ****************************************************************************
+-- Tópicos
+-- ****************************************************************************
+INSERT INTO unadroid.topics
+(id, name, description, `order`, unit_id, createdAt, updatedAt)
+VALUES(1, 'Instalación de Herramientas Android', NULL, 1, 1, '2018-06-07 02:38:49.000', '2018-06-07 02:38:55.000');
+INSERT INTO unadroid.topics
+(id, name, description, `order`, unit_id, createdAt, updatedAt)
+VALUES(2, 'Interfaces en Android', NULL, 2, 1, '2018-06-07 02:38:58.000', '2018-06-07 02:39:01.000');
+
 -- ****************************************************************************
 -- VIDEOS
 -- ****************************************************************************
