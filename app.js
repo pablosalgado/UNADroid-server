@@ -188,9 +188,6 @@ const Video = sequelize.define('video', {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true
     },
-    unit: {
-        type: Sequelize.DataTypes.STRING
-    },
     name: {
         type: Sequelize.DataTypes.STRING
     },
@@ -202,7 +199,13 @@ const Video = sequelize.define('video', {
     },
     order: {
         type: Sequelize.DataTypes.INTEGER
-    }
+    },
+    unitId: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    unitName: {
+        type: Sequelize.DataTypes.STRING
+    },
 });
 
 // Videos
@@ -223,6 +226,7 @@ app.get('/api/videos/:id', (req, res) =>{
         res.send(video);
     });
 });
+
 // ----------------------------------------------------------------------------
 // SECCION PARA TEMATICAS
 // ----------------------------------------------------------------------------
@@ -244,7 +248,6 @@ const Topic = sequelize.define('topic', {
         type: Sequelize.DataTypes.INTEGER
     }
 });
-
 
 app.post('/api/topics', (req, res) => {
     Topic.findAll({

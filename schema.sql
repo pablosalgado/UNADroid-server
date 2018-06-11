@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS `topics`;
 DROP TABLE IF EXISTS `units`;
 DROP TABLE IF EXISTS `users`;
 
-
 -- ****************************************************************************
 -- Tablas
 -- ****************************************************************************
@@ -144,13 +143,14 @@ CREATE TABLE `resource` (
 CREATE OR REPLACE VIEW videos
 AS
 	SELECT a.id
-	       , c.name AS unit
-	       , a.`order`
 	       , a.name
 	       , a.description
 	       , a.url
+	       , a.`order`
 	       , a.createdAt
 	       , a.updatedAt
+	       , c.id AS unitId
+	       , c.name AS unitName
 	FROM   resource a
 	       INNER JOIN resource_type b
 	               ON b.id = a.resource_type_id
@@ -161,12 +161,17 @@ AS
 	       c.order
 	       , a.order;
 	
+-- ****************************************************************************
+-- USUARIOS
+-- ****************************************************************************
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(1, 'pabloasalgado@gmail.com', 'pablo', 'Pablo ', 'Salgado ', '2018-05-20 23:10:53.000', '2018-05-20 23:10:53.000');
+
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(2, 'jsebascalle@gmail.com', '123456789', 'Juan', 'Calle', '2018-05-24 02:58:35.000', '2018-05-24 02:58:35.000');
+
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
 VALUES(3, 'unad@edu.co', '12345', 'Unad', 'Droid', '2018-06-10 01:39:16.000', '2018-06-10 01:39:16.000');
@@ -233,6 +238,7 @@ VALUES     (3
 INSERT INTO unadroid.topics
 (id, name, description, `order`, unit_id, createdAt, updatedAt)
 VALUES(1, 'Instalación de Herramientas Android', NULL, 1, 1, '2018-06-07 02:38:49.000', '2018-06-07 02:38:55.000');
+
 INSERT INTO unadroid.topics
 (id, name, description, `order`, unit_id, createdAt, updatedAt)
 VALUES(2, 'Interfaces en Android', NULL, 2, 1, '2018-06-07 02:38:58.000', '2018-06-07 02:39:01.000');
