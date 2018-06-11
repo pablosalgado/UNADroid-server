@@ -146,6 +146,37 @@ app.post('/api/user', (req, res) => {
 
 
 // Actualización de usuario
+app.put('/api/user', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email,
+        }
+    }).then(user => {
+        res.setHeader('Content-type', 'application/json');
+
+        if (!user) {
+            let error = {
+                error: true,
+                error_msg: 'El usuario no existe.'
+            };
+
+            res.send(error);
+
+            return;
+        }
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+
+        user.save({
+            fields: ['firstName', 'lastName']
+        }).then(u => {
+            res.send(u);
+        });
+    });
+});
+
+// DEPRECATED: Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
 app.post('/api/userUpdate', (req, res) => {
     User.findOne({
         where: {
@@ -177,7 +208,6 @@ app.post('/api/userUpdate', (req, res) => {
     });
 });
 
-
 // ----------------------------------------------------------------------------
 // Sección de recursos. Define las rutas y funciones para obtener los recursos
 // del curso
@@ -187,9 +217,6 @@ const Video = sequelize.define('video', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
         primaryKey: true
-    },
-    unit: {
-        type: Sequelize.DataTypes.STRING
     },
     name: {
         type: Sequelize.DataTypes.STRING
@@ -202,7 +229,13 @@ const Video = sequelize.define('video', {
     },
     order: {
         type: Sequelize.DataTypes.INTEGER
-    }
+    },
+    unitId: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    unitName: {
+        type: Sequelize.DataTypes.STRING
+    },
 });
 
 // Videos
@@ -223,6 +256,7 @@ app.get('/api/videos/:id', (req, res) =>{
         res.send(video);
     });
 });
+
 // ----------------------------------------------------------------------------
 // SECCION PARA TEMATICAS
 // ----------------------------------------------------------------------------
@@ -244,7 +278,6 @@ const Topic = sequelize.define('topic', {
         type: Sequelize.DataTypes.INTEGER
     }
 });
-
 
 app.post('/api/topics', (req, res) => {
     Topic.findAll({
