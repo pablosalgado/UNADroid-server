@@ -135,7 +135,7 @@ app.post('/api/register', (req, res) => {
 app.post('/api/user', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email,
+            id: req.body.id,
         }
     }).then(user  => {
         res.setHeader('Content-type', 'application/json');
@@ -259,9 +259,9 @@ app.post('/api/topics', (req, res) => {
 
 // Esta seccion devuelve el listado de unidades disponibles
 app.get('/api/units', (req, res) => {
-    Unit.findAll().then(unit  => {
+    Unit.findAll().then(units  => {
         res.setHeader('Content-type', 'application/json');
         // Enviar datos del usuario
-        res.send(unit);
+        res.send(units);
     });
 });
