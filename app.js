@@ -132,10 +132,10 @@ app.post('/api/register', (req, res) => {
 });
 
 // datos usuario
-app.post('/api/user', (req, res) => {
+app.get('/api/user/:email', (req, res) => {
     User.findOne({
         where: {
-            email: req.body.email,
+            email: req.params.email,
         }
     }).then(user  => {
         res.setHeader('Content-type', 'application/json');
@@ -143,7 +143,6 @@ app.post('/api/user', (req, res) => {
         res.send(user);
     });
 });
-
 
 // Actualización de usuario
 app.put('/api/user', (req, res) => {
