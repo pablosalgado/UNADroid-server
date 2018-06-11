@@ -177,7 +177,7 @@ app.put('/api/user', (req, res) => {
 });
 
 // DEPRECATED: Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
-app.post('/api/userUpdate', (req, res) => {
+app.put('/api/user', (req, res) => {
     User.findOne({
         where: {
             id: req.body.id,
@@ -279,7 +279,7 @@ const Topic = sequelize.define('topic', {
     }
 });
 
-app.post('/api/topics', (req, res) => {
+app.get('/api/topics', (req, res) => {
     Topic.findAll({
         where: {
             unit_id: req.body.unit_id,
