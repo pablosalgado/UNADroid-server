@@ -146,6 +146,37 @@ app.post('/api/user', (req, res) => {
 
 
 // Actualización de usuario
+app.put('/api/user', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.body.email,
+        }
+    }).then(user => {
+        res.setHeader('Content-type', 'application/json');
+
+        if (!user) {
+            let error = {
+                error: true,
+                error_msg: 'El usuario no existe.'
+            };
+
+            res.send(error);
+
+            return;
+        }
+
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
+
+        user.save({
+            fields: ['firstName', 'lastName']
+        }).then(u => {
+            res.send(u);
+        });
+    });
+});
+
+// DEPRECATED: Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
 app.post('/api/userUpdate', (req, res) => {
     User.findOne({
         where: {
@@ -176,7 +207,6 @@ app.post('/api/userUpdate', (req, res) => {
         });
     });
 });
-
 
 // ----------------------------------------------------------------------------
 // Sección de recursos. Define las rutas y funciones para obtener los recursos
