@@ -170,7 +170,7 @@ app.post('/api/userUpdate', (req, res) => {
         user.email = req.body.email;
 
         user.save({
-            fields: ['firstName', 'lastName']
+            fields: ['firstName', 'lastName','email']
         }).then(u => {
             res.send(u);
         });
