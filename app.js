@@ -26,7 +26,7 @@ const User = sequelize.define('user', {
         type: Sequelize.DataTypes.STRING,
         isUnique: true,
         allowNull: false,
-        defaultValue: '',
+        defaultValue: null,
         validate: {
             isEmail: {args: true, msg: 'El correo no tiene un formato valido'},
             notEmpty: { msg: 'Debe ingresar un correo' },
@@ -48,17 +48,26 @@ const User = sequelize.define('user', {
     },
     password: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-        defaultValue: '',
+        defaultValue: null,
         validate:{
             notEmpty: { msg: 'Debe ingresar una contraseña' },
         }
     },
     firstName: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: null,
+        validate:{
+            notEmpty: { msg: 'Debe ingresar un nombre' },
+        }
     },
     lastName: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: null,
+        validate:{
+            notEmpty: { msg: 'Debe ingresar apellidos' },
+        }
     }
 });
 
