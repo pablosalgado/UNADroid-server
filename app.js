@@ -23,10 +23,36 @@ const User = sequelize.define('user', {
         primaryKey: true
     },
     email: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.STRING,
+        isUnique: true,
+        allowNull: false,
+        defaultValue: '',
+        validate: {
+            isEmail: {args: true, msg: 'El correo no tiene un formato valido'},
+            notEmpty: { msg: 'Debe ingresar un correo' },
+            isUnique: function (value, next) {
+                var self = this;
+                User.find({where: {email: value}})
+                    .then(function (user) {
+                        // reject if a different user wants to use the same email
+                        if (user && self.id !== user.id) {
+                            return next('El correo ingresado ya esta en uso!');
+                        }
+                        return next();
+                    })
+                    .catch(function (err) {
+                        return next(err);
+                    });
+            }
+        }
     },
     password: {
-        type: Sequelize.DataTypes.STRING
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+        defaultValue: '',
+        validate:{
+            notEmpty: { msg: 'Debe ingresar una contraseña' },
+        }
     },
     firstName: {
         type: Sequelize.DataTypes.STRING
@@ -75,7 +101,7 @@ app.post('/api/login', (req, res) => {
         }
     }).then(users => {
         res.setHeader('Content-type', 'application/json');
-
+      
         let error = {
             error: true,
             error_msg: 'Credenciales no válidas'
@@ -127,6 +153,20 @@ app.post('/api/register', (req, res) => {
             lastName: req.body.lastName
         }).then(user => {
             res.send(user);
+        }).catch(Sequelize.ValidationError, function (err) {
+
+            var messages = '';
+            Object.keys(err.errors).forEach(function (key) {
+                messages += err.errors[key].message +' \n ';
+            });
+         
+            let error = {
+                error: true,
+                error_msg: messages
+            };
+
+            res.status(422).send(error);
+            return;
         });
     });
 });
@@ -144,39 +184,8 @@ app.get('/api/user/:email', (req, res) => {
     });
 });
 
-// Actualización de usuario
+//Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
 app.put('/api/user', (req, res) => {
-    User.findOne({
-        where: {
-            email: req.body.email,
-        }
-    }).then(user => {
-        res.setHeader('Content-type', 'application/json');
-
-        if (!user) {
-            let error = {
-                error: true,
-                error_msg: 'El usuario no existe.'
-            };
-
-            res.send(error);
-
-            return;
-        }
-
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
-
-        user.save({
-            fields: ['firstName', 'lastName']
-        }).then(u => {
-            res.send(u);
-        });
-    });
-});
-
-// DEPRECATED: Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
-app.post('/api/userUpdate', (req, res) => {
     User.findOne({
         where: {
             id: req.body.id,
@@ -200,11 +209,25 @@ app.post('/api/userUpdate', (req, res) => {
         user.email = req.body.email;
 
         user.save({
-            fields: ['firstName', 'lastName']
+            fields: ['firstName', 'lastName','email']
         }).then(u => {
             res.send(u);
+        }).catch(Sequelize.ValidationError, function (err) {
+
+            var messages = '';
+            Object.keys(err.errors).forEach(function (key) {
+                messages += err.errors[key].message +' \n';
+            });
+         
+            let error = {
+                error: true,
+                error_msg: messages
+            };
+
+            res.status(422).send(error);
+            return;
         });
-    });
+    });   
 });
 
 // ----------------------------------------------------------------------------
