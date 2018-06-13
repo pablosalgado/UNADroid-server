@@ -310,10 +310,10 @@ const Topic = sequelize.define('topic', {
     }
 });
 
-app.post('/api/topics', (req, res) => {
+app.get('/api/unit/:unit_id/topics', (req, res) => {
     Topic.findAll({
         where: {
-            unit_id: req.body.unit_id,
+            unit_id: req.params.unit_id,
         }
     }).then(topics => {
         res.setHeader('Content-type', 'application/json');
