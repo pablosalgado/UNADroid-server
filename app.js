@@ -174,7 +174,7 @@ app.post('/api/register', (req, res) => {
                 error_msg: messages
             };
 
-            res.status(422).send(error);
+            res.send(error);
             return;
         });
     });
@@ -233,7 +233,7 @@ app.put('/api/user', (req, res) => {
                 error_msg: messages
             };
 
-            res.status(422).send(error);
+            res.send(error);
             return;
         });
     });   
