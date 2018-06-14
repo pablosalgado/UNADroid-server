@@ -94,7 +94,27 @@ const Unit = sequelize.define('unit', {
     },
     iconName: {
         type: Sequelize.DataTypes.STRING
+    }
+});
+
+// Modelo de Evaluaciones (Permite mapear la entidad evaluations)
+const Evaluation = sequelize.define('evaluation', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
     },
+    unit_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    },
+    createdAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    updatedAt: {
+        type: Sequelize.DataTypes.DATE
+    }
 });
 
 // ----------------------------------------------------------------------------
@@ -110,7 +130,7 @@ app.post('/api/login', (req, res) => {
         }
     }).then(users => {
         res.setHeader('Content-type', 'application/json');
-      
+
         let error = {
             error: true,
             error_msg: 'Credenciales no válidas'
@@ -168,7 +188,7 @@ app.post('/api/register', (req, res) => {
             Object.keys(err.errors).forEach(function (key) {
                 messages += err.errors[key].message +' \n ';
             });
-         
+
             let error = {
                 error: true,
                 error_msg: messages
@@ -227,7 +247,7 @@ app.put('/api/user', (req, res) => {
             Object.keys(err.errors).forEach(function (key) {
                 messages += err.errors[key].message +' \n';
             });
-         
+
             let error = {
                 error: true,
                 error_msg: messages
@@ -236,7 +256,7 @@ app.put('/api/user', (req, res) => {
             res.send(error);
             return;
         });
-    });   
+    });
 });
 
 // ----------------------------------------------------------------------------
@@ -327,5 +347,15 @@ app.get('/api/units', (req, res) => {
         res.setHeader('Content-type', 'application/json');
         // Enviar datos del usuario
         res.send(unit);
+    });
+});
+
+
+// Esta seccion devuelve el listado de evaluaciones disponibles
+app.get('/api/evaluations', (req, res) => {
+    Evaluation.findAll().then(evaluation  => {
+        res.setHeader('Content-type', 'application/json');
+        // Enviar datos del usuario
+        res.send(evaluation);
     });
 });
