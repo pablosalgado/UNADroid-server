@@ -106,6 +106,9 @@ const Evaluation = sequelize.define('evaluation', {
     unit_id: {
         type: Sequelize.DataTypes.INTEGER
     },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
     description: {
         type: Sequelize.DataTypes.STRING
     },
