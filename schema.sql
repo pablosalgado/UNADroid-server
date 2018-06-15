@@ -61,14 +61,17 @@ CREATE TABLE `extra_activity` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `evaluation` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `unit_id` int(11) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
+CREATE TABLE `evaluations` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `unit_id` INT(11) NOT NULL,
+  `name` VARCHAR(50) NOT NULL,
+  `description` VARCHAR(100) NOT NULL,
+  `createdAt` DATETIME NULL DEFAULT NULL,
+  `updatedAt` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
 
 CREATE TABLE `evaluation_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
