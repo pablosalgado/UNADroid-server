@@ -16,16 +16,18 @@ DROP TABLE IF EXISTS `users`;
 -- Tablas
 -- ****************************************************************************
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `firstName` varchar(100) DEFAULT NULL,
-  `lastName` varchar(100) DEFAULT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `email` VARCHAR(100) NOT NULL,
+  `password` VARCHAR(100) NOT NULL,
+  `firstName` VARCHAR(100) NULL DEFAULT NULL,
+  `lastName` VARCHAR(100) NULL DEFAULT NULL,
+  `createdAt` DATETIME NULL DEFAULT NULL,
+  `updatedAt` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `users_UN` (`email`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  UNIQUE INDEX `users_UN` (`email`)
+)
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB;
 
 CREATE TABLE `units` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -121,25 +123,27 @@ CREATE TABLE `resource_type` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `resources` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`resource_type_id` INT(11) NOT NULL,
-	`unit_id` INT(11) NOT NULL,
-	`topic_id` INT(11) NOT NULL DEFAULT '1',
-	`name` VARCHAR(100) NOT NULL,
-	`description` TEXT NOT NULL,
-	`url` VARCHAR(100) NOT NULL,
-	`order` INT(11) NOT NULL,
-	`createdAt` DATETIME NULL DEFAULT NULL,
-	`updatedAt` DATETIME NULL DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `resource_resource_type_FK` (`resource_type_id`),
-	INDEX `resource_unit_FK` (`unit_id`),
-	INDEX `resource_topic_FK` (`topic_id`),
-	CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
-	CONSTRAINT `resource_topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`),
-	CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `resource_type_id` INT(11) NOT NULL,
+  `unit_id` INT(11) NOT NULL,
+  `topic_id` INT(11) NOT NULL DEFAULT '1',
+  `name` VARCHAR(100) NOT NULL,
+  `description` TEXT NOT NULL,
+  `url` VARCHAR(100) NOT NULL,
+  `order` INT(11) NOT NULL,
+  `iconName` VARCHAR(100) NOT NULL DEFAULT 'iconName',
+  `createdAt` DATETIME NULL DEFAULT NULL,
+  `updatedAt` DATETIME NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `resource_resource_type_FK` (`resource_type_id`),
+  INDEX `resource_unit_FK` (`unit_id`),
+  INDEX `resource_topic_FK` (`topic_id`),
+  CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
+  CONSTRAINT `resource_topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`),
+  CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
 )
-COLLATE='latin1_swedish_ci' ENGINE=InnoDB AUTO_INCREMENT=8
+COLLATE='latin1_swedish_ci'
+ENGINE=InnoDB
 ;
 
 
