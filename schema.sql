@@ -61,7 +61,7 @@ CREATE TABLE `extra_activity` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `evaluation` (
+CREATE TABLE `evaluations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `unit_id` int(11) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -120,22 +120,28 @@ CREATE TABLE `resource_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `resource` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `resource_type_id` int(11) NOT NULL,
-  `unit_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `description` text NOT NULL,
-  `url` varchar(100) NOT NULL,
-  `order` int(11) NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `resource_resource_type_FK` (`resource_type_id`),
-  KEY `resource_unit_FK` (`unit_id`),
-  CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
-  CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `resources` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`resource_type_id` INT(11) NOT NULL,
+	`unit_id` INT(11) NOT NULL,
+	`topic_id` INT(11) NOT NULL DEFAULT '1',
+	`name` VARCHAR(100) NOT NULL,
+	`description` TEXT NOT NULL,
+	`url` VARCHAR(100) NOT NULL,
+	`order` INT(11) NOT NULL,
+	`createdAt` DATETIME NULL DEFAULT NULL,
+	`updatedAt` DATETIME NULL DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	INDEX `resource_resource_type_FK` (`resource_type_id`),
+	INDEX `resource_unit_FK` (`unit_id`),
+	INDEX `resource_topic_FK` (`topic_id`),
+	CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
+	CONSTRAINT `resource_topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`),
+	CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
+)
+COLLATE='latin1_swedish_ci' ENGINE=InnoDB AUTO_INCREMENT=8
+;
+
 
 -- ****************************************************************************
 -- VISTAS
@@ -151,7 +157,7 @@ AS
 	       , a.updatedAt
 	       , c.id AS unitId
 	       , c.name AS unitName
-	FROM   resource a
+	FROM   resources a
 	       INNER JOIN resource_type b
 	               ON b.id = a.resource_type_id
 	       INNER JOIN units c
