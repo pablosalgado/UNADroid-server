@@ -1,12 +1,12 @@
 USE unadroid;
 
-DROP TABLE IF EXISTS `resource`;
+DROP TABLE IF EXISTS `resources`;
 DROP TABLE IF EXISTS `resource_type`;
 DROP TABLE IF EXISTS `user_extra_activity`;
 DROP TABLE IF EXISTS `user_evaluation`;
 DROP TABLE IF EXISTS `evaluation_answer`;
 DROP TABLE IF EXISTS `evaluation_question`;
-DROP TABLE IF EXISTS `evaluation`;
+DROP TABLE IF EXISTS `evaluations`;
 DROP TABLE IF EXISTS `extra_activity`;
 DROP TABLE IF EXISTS `topics`;
 DROP TABLE IF EXISTS `units`;
@@ -61,17 +61,14 @@ CREATE TABLE `extra_activity` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `evaluations` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `unit_id` INT(11) NOT NULL,
-  `name` VARCHAR(50) NOT NULL,
-  `description` VARCHAR(100) NOT NULL,
-  `createdAt` DATETIME NULL DEFAULT NULL,
-  `updatedAt` DATETIME NULL DEFAULT NULL,
+CREATE TABLE `evaluation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `unit_id` int(11) NOT NULL,
+  `description` varchar(100) NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-)
-COLLATE='latin1_swedish_ci'
-ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `evaluation_question` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -123,26 +120,22 @@ CREATE TABLE `resource_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `resources` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`resource_type_id` INT(11) NOT NULL,
-	`unit_id` INT(11) NOT NULL,
-	`topic_id` INT(11) NOT NULL DEFAULT '1',
-	`name` VARCHAR(100) NOT NULL,
-	`description` TEXT NOT NULL,
-	`url` VARCHAR(100) NOT NULL,
-	`order` INT(11) NOT NULL,
-	`createdAt` DATETIME NULL DEFAULT NULL,
-	`updatedAt` DATETIME NULL DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	INDEX `resource_resource_type_FK` (`resource_type_id`),
-	INDEX `resource_unit_FK` (`unit_id`),
-	INDEX `resource_topic_FK` (`topic_id`),
-	CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
-	CONSTRAINT `resource_topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`),
-	CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
-)
-COLLATE='latin1_swedish_ci' ENGINE=InnoDB AUTO_INCREMENT=8;
+CREATE TABLE `resource` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `resource_type_id` int(11) NOT NULL,
+  `unit_id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `description` text NOT NULL,
+  `url` varchar(100) NOT NULL,
+  `order` int(11) NOT NULL,
+  `createdAt` datetime DEFAULT NULL,
+  `updatedAt` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `resource_resource_type_FK` (`resource_type_id`),
+  KEY `resource_unit_FK` (`unit_id`),
+  CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
+  CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ****************************************************************************
 -- VISTAS
@@ -158,7 +151,7 @@ AS
 	       , a.updatedAt
 	       , c.id AS unitId
 	       , c.name AS unitName
-	FROM   resources a
+	FROM   resource a
 	       INNER JOIN resource_type b
 	               ON b.id = a.resource_type_id
 	       INNER JOIN units c
