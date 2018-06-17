@@ -120,6 +120,45 @@ const Evaluation = sequelize.define('evaluation', {
     }
 });
 
+// Modelo de Resources (Permite mapear la entidad resources)
+const Resource = sequelize.define('resource', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    resource_type_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    unit_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    topic_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    name: {
+        type: Sequelize.DataTypes.STRING
+    },
+    description: {
+        type: Sequelize.DataTypes.STRING
+    },
+    url: {
+        type: Sequelize.DataTypes.STRING
+    },
+    order: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    iconName: {
+        type: Sequelize.DataTypes.STRING
+    },
+    createdAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    updatedAt: {
+        type: Sequelize.DataTypes.DATE
+    }
+});
+
 // ----------------------------------------------------------------------------
 // Sección IAM, define las rutas y funciones para el registro e ingreso de los
 // usuarios
@@ -391,4 +430,18 @@ app.get('/api/evaluations', (req, res) => {
         // Enviar datos del usuario
         res.send(evaluation);
     });
+});
+
+
+// Esta seccion devuelve el listado de recursos segun una unidad y un tema
+app.get('/api/resource/unit/:unit_id/topic_id/:topic_id', (req, res) => {
+    Resource.findAll({
+        where: {
+            unit_id: req.params.unit_id,
+            topic_id:req.params.topic_id
+        }
+    }).then(resources => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(resources);
+    })
 });
