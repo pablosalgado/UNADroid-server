@@ -156,7 +156,7 @@ AS
 	       , a.name
 	       , a.description
 	       , a.url
-	       , a.`order`
+	       , a.order
 	       , a.createdAt
 	       , a.updatedAt
 	       , c.id AS unitId
