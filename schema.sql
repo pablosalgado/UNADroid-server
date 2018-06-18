@@ -25,9 +25,7 @@ CREATE TABLE `users` (
   `updatedAt` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `users_UN` (`email`)
-)
-COLLATE='latin1_swedish_ci'
-ENGINE=InnoDB;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `units` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -80,7 +78,7 @@ CREATE TABLE `evaluation_question` (
   `updatedAt` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `evaluation_question_evaluation_FK` (`evaluation_id`),
-  CONSTRAINT `evaluation_question_evaluation_FK` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`)
+  CONSTRAINT `evaluation_question_evaluation_FK` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `evaluation_answer` (
@@ -101,7 +99,7 @@ CREATE TABLE `user_evaluation` (
   `grade` int(11) NOT NULL,
   KEY `user_evaluation_user_FK` (`user_id`),
   KEY `user_evaluation_evaluation_FK` (`evaluation_id`),
-  CONSTRAINT `user_evaluation_evaluation_FK` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluation` (`id`),
+  CONSTRAINT `user_evaluation_evaluation_FK` FOREIGN KEY (`evaluation_id`) REFERENCES `evaluations` (`id`),
   CONSTRAINT `user_evaluation_user_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -141,11 +139,7 @@ CREATE TABLE `resources` (
   CONSTRAINT `resource_resource_type_FK` FOREIGN KEY (`resource_type_id`) REFERENCES `resource_type` (`id`),
   CONSTRAINT `resource_topic_FK` FOREIGN KEY (`topic_id`) REFERENCES `topics` (`id`),
   CONSTRAINT `resource_unit_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
-)
-COLLATE='latin1_swedish_ci'
-ENGINE=InnoDB
-;
-
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- ****************************************************************************
 -- VISTAS
@@ -258,7 +252,7 @@ VALUES(2, 'Interfaces en Android', NULL, 2, 1, '2018-06-07 02:38:58.000', '2018-
 -- ****************************************************************************
 
 -- UNIDAD 1
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -276,7 +270,7 @@ VALUES     (1
             , NOW()
             , NOW());
 
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -294,7 +288,7 @@ VALUES     (1
             , NOW()
             , NOW());
 
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -313,7 +307,7 @@ VALUES     (1
             , NOW());
 
 -- UNIDAD 2
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -331,7 +325,7 @@ VALUES     (1
             , NOW()
             , NOW());
 
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -349,7 +343,7 @@ VALUES     (1
             , NOW()
             , NOW());
 
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
             (resource_type_id
              , unit_id
              , name
@@ -369,6 +363,6 @@ VALUES     (1
 
 --
 -- DOCUMENTOS
-INSERT INTO unadroid.resource
+INSERT INTO unadroid.resources
 (resource_type_id, unit_id, name, description, url, `order`, createdAt, updatedAt)
 VALUES(2, 1, 'Java Primer', 'Copyright © 2012 – 2018, Dan Armendariz and David J. Malan of Harvard University', 'http://cdn.cs76.net/2012/spring/lectures/2/lecture2-dan.pdf', 1, '2018-05-23 23:17:14.000', '2018-05-23 23:17:14.000');
