@@ -261,6 +261,38 @@ app.post('/api/register', (req, res) => {
     });
 });
 
+// Recuperación de acceso
+app.get('/api/recover/:email', (req, res) => {
+    User.findOne({
+        where: {
+            email: req.params.email,
+        }
+    }).then(user => {
+        res.setHeader('Content-type', 'application/json');
+
+        const msg = {
+            to: user.email,
+            from: 'admin@unadroid.tk',
+            subject: 'UNADroid - recuperación de acceso',
+            html: '<p>Hola ' + user.firstName + ':</p>' +
+            '<p>Tu contraseña de acceso es: </p>' + user.password +
+            '<p><strong>El equipo de UNADroid</strong></p>',
+        };
+        sgMail.send(msg);
+
+        res.send({});
+    }).catch(() => {
+        res.setHeader('Content-type', 'application/json');
+
+        let error = {
+            error: true,
+            error_msg: "Usa tu dirección de correo electrónico"
+        };
+
+        res.send(error);
+    });
+});
+
 // datos usuario
 app.get('/api/user/:email', (req, res) => {
     User.findOne({
@@ -274,7 +306,6 @@ app.get('/api/user/:email', (req, res) => {
     });
 });
 
-//Se debe usar PUT /api/user. Se remueve en la siguiente iteración de puesta en producción
 app.put('/api/user', (req, res) => {
     User.findOne({
         where: {
