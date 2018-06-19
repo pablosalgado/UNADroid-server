@@ -20,7 +20,8 @@ app.get('/', (req, res) => res.send('UNADroid Server!'));
 const User = sequelize.define('user', {
     id: {
         type: Sequelize.DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
+        autoIncrement: true,
     },
     email: {
         type: Sequelize.DataTypes.STRING,
@@ -204,11 +205,12 @@ app.post('/api/register', (req, res) => {
         },
     }).then(users  => {
         res.setHeader('Content-type', 'application/json');
+
         // Si la dirección de correo ya está registrada no se puede crear el usuario.
         if (users.length === 1) {
             let error = {
                 error: true,
-                error_msg: 'La dirección de correo ya está registrada'
+                error_msg: 'La dirección de correo ya está registrada.'
             };
 
             res.send(error);
@@ -223,6 +225,8 @@ app.post('/api/register', (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName
         }).then(user => {
+            user.reload();
+
             res.send(user);
         }).catch(Sequelize.ValidationError, function (err) {
 
