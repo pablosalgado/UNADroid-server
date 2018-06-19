@@ -182,11 +182,11 @@ AS
 
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
-VALUES(1, 'pabloasalgado@gmail.com', 'pablo', 'Pablo ', 'Salgado ', NOW(), NOW());
+VALUES(1, 'pabloasalgado@gmail.com', 'Unad2018', 'Pablo ', 'Salgado ', NOW(), NOW());
 
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
-VALUES(2, 'jsebascalle@gmail.com', '123456789', 'Juan', 'Calle', NOW(), NOW());
+VALUES(2, 'jsebascalle@gmail.com', 'Unad2018', 'Juan', 'Calle', NOW(), NOW());
 
 INSERT INTO unadroid.users
 (id, email, password, firstName, lastName, createdAt, updatedAt)
