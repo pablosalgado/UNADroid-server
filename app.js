@@ -17,6 +17,8 @@ app.listen(port, function () {
     console.log('UNADroid-server listening on port ' + port + '!');
 });
 
+app.use(express.static('public'));
+
 // Ruta por defecto cuando se carga el sitio raíz: https://unadroid.tk
 app.get('/', (req, res) => res.send('UNADroid Server!'));
 
