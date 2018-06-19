@@ -7,6 +7,10 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+// Configuración para enviar correos
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
 var port = process.env.PORT || 3000;
 
 app.listen(port, function () {
@@ -226,6 +230,17 @@ app.post('/api/register', (req, res) => {
             lastName: req.body.lastName
         }).then(user => {
             user.reload();
+
+            const msg = {
+                to: user.email,
+                from: 'admin@unadroid.tk',
+                subject: 'UNADroid - registro exitoso',
+                // text: 'and easy to do anywhere, even with Node.js',
+                html: '<p>Hola ' + user.firstName + ':</p>' +
+                '<p>Hemos creado tu cuenta en UNADroid</p>' +
+                '<p><strong>El equipo de UNADroid</strong></p>',
+            };
+            sgMail.send(msg);
 
             res.send(user);
         }).catch(Sequelize.ValidationError, function (err) {
