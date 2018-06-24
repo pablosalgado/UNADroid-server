@@ -1,6 +1,7 @@
 // Configuración para acceder a la base de datos de UNADroid
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize('mysql://root:root@127.0.0.1:3306/unadroid');
+const fs = require('fs');
 
 // Configuración e instanciamiento del servidor
 const express = require('express');
@@ -240,7 +241,7 @@ app.post('/api/login', (req, res) => {
 
         let error = {
             error: true,
-            error_msg: 'Credenciales no válidas.'
+            error_msg: 'Credenciales no válidas'
         };
 
         // El usuario no existe
@@ -578,4 +579,31 @@ app.get('/api/answer/question_id/:question_id', (req, res) => {
         res.setHeader('Content-type', 'application/json');
         res.send(answers);
     })
+});
+
+// Esta seccion devuelve el documento Syllabus del curso
+app.get('/api/docs/syllabus', (req, res) => {
+  fs.readFile('public/docs/Syllabus.pdf', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'application/pdf'});
+    res.write(data);
+    res.end();
+  });
+});
+
+// Esta seccion devuelve el documento definiciones del curso
+app.get('/api/docs/definitions', (req, res) => {
+  fs.readFile('public/docs/definitions.pdf', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'application/pdf'});
+    res.write(data);
+    res.end();
+  });
+});
+
+// Esta seccion devuelve el documento sobre informacion del curso
+app.get('/api/docs/course', (req, res) => {
+  fs.readFile('public/docs/course.pdf', function(err, data) {
+    res.writeHead(200, {'Content-Type': 'application/pdf'});
+    res.write(data);
+    res.end();
+  });
 });
