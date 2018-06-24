@@ -346,7 +346,7 @@ app.get('/api/recover/:email', (req, res) => {
 
         let error = {
             error: true,
-            error_msg: "Usa tu dirección de correo electrónico"
+            error_msg: "Usa tu dirección de correo electrónico."
         };
 
         res.send(error);
