@@ -241,7 +241,7 @@ app.post('/api/login', (req, res) => {
 
         let error = {
             error: true,
-            error_msg: 'Credenciales no válidas.'
+            error_msg: 'Credenciales no válidas'
         };
 
         // El usuario no existe
@@ -599,7 +599,7 @@ app.get('/api/docs/definitions', (req, res) => {
   });
 });
 
-// Esta seccion devuelve el documento sobre datos del curso
+// Esta seccion devuelve el documento sobre informacion del curso
 app.get('/api/docs/course', (req, res) => {
   fs.readFile('public/docs/course.pdf', function(err, data) {
     res.writeHead(200, {'Content-Type': 'application/pdf'});
