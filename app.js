@@ -166,6 +166,64 @@ const Resource = sequelize.define('resource', {
     }
 });
 
+// Modelo de preguntas (Permite mapear la entidad evaluation_question)
+const Question = sequelize.define('question', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    evaluation_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    question_type_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    question: {
+        type: Sequelize.DataTypes.STRING
+    },
+    createdAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    updatedAt: {
+        type: Sequelize.DataTypes.DATE
+    }
+},
+{
+  freezeTableName: true,
+  // define the table's name
+  tableName: 'evaluation_question',
+}
+);
+
+// Modelo de respuestas (Permite mapear la entidad evaluation_answer)
+const Answer = sequelize.define('answer', {
+    id: {
+        type: Sequelize.DataTypes.INTEGER,
+        primaryKey: true
+    },
+    evaluation_question_id: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    answer: {
+        type: Sequelize.DataTypes.STRING
+    },
+    correct: {
+        type: Sequelize.DataTypes.INTEGER
+    },
+    createdAt: {
+        type: Sequelize.DataTypes.DATE
+    },
+    updatedAt: {
+        type: Sequelize.DataTypes.DATE
+    }
+},
+{
+  freezeTableName: true,
+  // define the table's name
+  tableName: 'evaluation_answer',
+}
+);
+
 // ----------------------------------------------------------------------------
 // Sección IAM, define las rutas y funciones para el registro e ingreso de los
 // usuarios
@@ -495,5 +553,29 @@ app.get('/api/resource/unit/:unit_id/topic_id/:topic_id', (req, res) => {
     }).then(resources => {
         res.setHeader('Content-type', 'application/json');
         res.send(resources);
+    })
+});
+
+// Esta seccion devuelve el listado de preguntas segun un codigo de evaluacion
+app.get('/api/question/evaluation_id/:evaluation_id', (req, res) => {
+    Question.findAll({
+        where: {
+            evaluation_id: req.params.evaluation_id
+        }
+    }).then(questions => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(questions);
+    })
+});
+
+// Esta seccion devuelve el listado de preguntas segun un codigo de evaluacion
+app.get('/api/answer/question_id/:question_id', (req, res) => {
+    Answer.findAll({
+        where: {
+            evaluation_question_id: req.params.question_id
+        }
+    }).then(answers => {
+        res.setHeader('Content-type', 'application/json');
+        res.send(answers);
     })
 });
