@@ -182,7 +182,7 @@ app.post('/api/login', (req, res) => {
 
         let error = {
             error: true,
-            error_msg: 'Credenciales no válidas'
+            error_msg: 'Credenciales no válidas.'
         };
 
         // El usuario no existe
