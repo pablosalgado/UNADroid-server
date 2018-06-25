@@ -550,7 +550,10 @@ app.get('/api/resource/unit/:unit_id/topic_id/:topic_id', (req, res) => {
         where: {
             unit_id: req.params.unit_id,
             topic_id:req.params.topic_id
-        }
+        },
+        order: [
+            ['order', 'ASC']
+        ]
     }).then(resources => {
         res.setHeader('Content-type', 'application/json');
         res.send(resources);
