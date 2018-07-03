@@ -2,13 +2,11 @@ USE unadroid;
 
 DROP TABLE IF EXISTS `resources`;
 DROP TABLE IF EXISTS `resource_type`;
-DROP TABLE IF EXISTS `user_extra_activity`;
 DROP TABLE IF EXISTS `user_evaluation`;
 DROP TABLE IF EXISTS `evaluation_answer`;
 DROP TABLE IF EXISTS `evaluation_question`;
 DROP TABLE IF EXISTS `question_type`;
 DROP TABLE IF EXISTS `evaluations`;
-DROP TABLE IF EXISTS `extra_activity`;
 DROP TABLE IF EXISTS `topics`;
 DROP TABLE IF EXISTS `units`;
 DROP TABLE IF EXISTS `users`;
@@ -50,16 +48,6 @@ CREATE TABLE `topics` (
   PRIMARY KEY (`id`),
   KEY `topics_units_FK` (`unit_id`),
   CONSTRAINT `topics_units_FK` FOREIGN KEY (`unit_id`) REFERENCES `units` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-CREATE TABLE `extra_activity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `description` varchar(100) NOT NULL,
-  `points` int(11) NOT NULL,
-  `createdAt` datetime DEFAULT NULL,
-  `updatedAt` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `evaluations` (
@@ -114,14 +102,6 @@ CREATE TABLE `user_evaluation` (
   CONSTRAINT `user_evaluation_user_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-CREATE TABLE `user_extra_activity` (
-  `user_id` int(11) NOT NULL,
-  `extra_activity_id` int(11) NOT NULL,
-  KEY `user_extra_activity_user_FK` (`user_id`),
-  KEY `user_extra_activity_extra_activity_FK` (`extra_activity_id`),
-  CONSTRAINT `user_extra_activity_extra_activity_FK` FOREIGN KEY (`extra_activity_id`) REFERENCES `extra_activity` (`id`),
-  CONSTRAINT `user_extra_activity_user_FK` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `resource_type` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
